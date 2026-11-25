@@ -204,6 +204,16 @@ mark{background:#fde68a;border-radius:2px}
 .hb .tk{height:28px;background:#f8f8f8;border-radius:6px;overflow:hidden}.hb .tk i{display:block;height:100%;border-radius:6px;transition:width .5s}
 .hb .val{text-align:right;white-space:nowrap}.hb .val span{color:#666476}
 .hbars{display:flex;flex-direction:column;gap:24px}
+.pline{display:flex;flex-direction:column;gap:12px;flex:1;min-height:240px}
+.pl-plot{position:relative;flex:1;min-height:200px;margin-top:28px}
+.pl-plot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pl-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between}.pl-grid i{height:1px;background:#f0eef5}
+.pl-plot .pl-pt{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;cursor:default}
+.pl-pt i{position:absolute;left:6px;top:6px;width:12px;height:12px;border-radius:50%;background:#fff;border:2.5px solid #7c3edd;box-sizing:border-box}
+.pl-pt .pl-v{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:14px;color:#666476;background:#fff;padding:1px 6px;border-radius:6px}.pl-v b{color:#111318}
+.pl-pt[data-tip]:hover::after{bottom:48px}
+.pl-pt:hover i{background:#7c3edd}
+.pl-x{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:14px;color:#262524}
 .tod{display:flex;gap:32px;align-items:flex-end}
 .slots{flex:1;display:flex;gap:8px}
 .slot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;height:214px;padding:10px 4px;border-radius:12px;font-size:13px;color:var(--ink2);text-align:center}
@@ -493,6 +503,13 @@ function viewSucc(){const ok=S.succTab==='ok',key='succ-'+S.succTab,F=fl(key),q=
 
 /* ---------- 7 analytics ---------- */
 const MEMS=[['Harshit',386,78,'5m 12s',7.6,25],['Amrita',412,74,'4m 05s',7.1,22],['Priya',301,71,'4m 20s',6.9,15],['Sachin',355,69,'3m 48s',6.4,14],['Shreya',280,70,'3m 31s',6.2,10],['Bushra',214,88,'6m 10s',7.5,null],['Satyam',198,90,'5m 55s',7.3,null]];
+function planLine(plans,f){const ord=['1-Month','3-Month','6-Month','12-Month'],pts=ord.map(k=>plans.find(p=>p[0]===k)),tot=pts.reduce((a,p)=>a+p[1],0),mx=Math.max(...pts.map(p=>p[1]))*1.15,
+ X=i=>(i+.5)/pts.length*100,Y=v=>100-v/mx*100,xy=pts.map((p,i)=>[X(i),Y(p[1])]),ln=xy.map(([x,y],i)=>`${i?'L':'M'}${x} ${y}`).join(' ');
+ return `<div class="pline"><div class="pl-plot"><div class="pl-grid">${[0,1,2,3].map(()=>'<i></i>').join('')}</div>
+ <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="plg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7c3edd" stop-opacity=".22"/><stop offset="1" stop-color="#7c3edd" stop-opacity="0"/></linearGradient></defs>
+ <path d="${ln} L${X(pts.length-1)} 100 L${X(0)} 100Z" fill="url(#plg)"/><path d="${ln}" fill="none" stroke="#7c3edd" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+ ${pts.map(([l,v],i)=>`<div class="pl-pt" style="left:${X(i)}%;top:${Y(v)}%" data-tip="${l}: ${fmt(v*f)} learners · ${Math.round(v/tot*100)}%"><span class="pl-v"><b>${fmt(v*f)}</b> (${Math.round(v/tot*100)}%)</span><i></i></div>`).join('')}</div>
+ <div class="pl-x">${pts.map(([l])=>`<span>${l}</span>`).join('')}</div></div>`}
 function viewAnalytics(){const tf={all:1,sales:.73,support:.27}[S.aType],m=MEMS.find(x=>x[0]===S.aMem),mf=m?m[1]/2146:1,f=rf()*tf*mf,cf=S.aType==='support'?0:rf()*(m?(m[5]||0)/86:1);
  const cv=[4,8,12,15,25,22].map(v=>v*cf),cmax=Math.max(...cv,1);const conv=Math.round(86*cf);
  const plans=[['6-Month',612,'#d1b7fa'],['3-Month',401,'#b18bf1'],['12-Month',302,'#9563e7'],['1-Month',150,'#7c3edd']],pmax=612;
@@ -504,7 +521,7 @@ function viewAnalytics(){const tf={all:1,sales:.73,support:.27}[S.aType],m=MEMS.
  return pageHead('Call Analytics','How the team is calling')+`<div class="stack"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div class="seg">${[['all','All calls'],['sales','Sales'],['support','Support']].map(([k,l])=>`<button class="${S.aType===k?'on':''}" data-atype="${k}">${l}</button>`).join('')}</div><button class="fbtn ${S.aMem?'on':''}" id="amem">${S.aMem||'All members'}${ic('down')}</button></div>
  <div class="aw"><div class="acard"><h3>Calls to convert</h3><div><div class="lab">Median per conversion</div><div style="display:flex;gap:10px;align-items:baseline"><span class="big">${conv?'5 calls':'—'}</span><span class="mut">${conv?`avg 4.6 · ${conv} converted`:'No conversions for this view'}</span></div></div>
  <div class="cols">${cv.map((v,i)=>`<div class="col ${i===4?'hi':''}" data-tip="${Math.round(v)} learners converted on call ${i<5?i+1:'6 or later'}"><b>${Math.round(v)}</b><i style="height:${Math.max(2,v/cmax*76)}px"></i><span>${i<5?i+1:'6+'}</span></div>`).join('')}</div><div class="sm" style="text-align:center">Calls made before purchase</div></div>
- <div class="acard"><h3>Emphasised plans</h3><div class="hbars">${plans.map(([l,v,c])=>`<div class="hb"><span>${l}</span><div class="tk"><i style="width:${v/pmax*100}%;background:${c}"></i></div><span class="val"><b>${fmt(v*f)}</b> <span>(${Math.round(v/1465*100)}%)</span></span></div>`).join('')}</div></div></div>
+ <div class="acard"><h3>Emphasised plans</h3>${planLine(plans,f)}</div></div>
  <div class="acard"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h3>${S.aType==='support'?'Support':'Sales'} calls by time of day</h3><div class="mut" style="margin-top:4px">Calls made vs converted in each time slot</div></div><div class="lg"><span><i style="background:#d9c8fb"></i>Calls made</span><span><i style="background:var(--brand)"></i>Converted</span></div></div>
  <div class="tod"><div style="width:230px;padding-bottom:8px"><div class="lab">Best time to call</div><div class="big">6 – 9 PM</div><div class="mut">5.3% conversion · ${Math.round(31*cf)} of ${conv} converted</div></div>
  <div class="slots">${tod.map(([l,c,v],i)=>`<div class="slot ${i===3?'hi':''}" data-tip="${fmt(c*f)} calls · ${Math.round(v*cf)} converted"><div class="bs"><div>${fmt(c*f)}<i style="height:${c/tmax*104}px;background:#d9c8fb"></i></div><div style="${i===3?'color:var(--brand)':''}">${Math.round(v*cf)}<i style="height:${v/31*104*(cf?1:0)+2}px;background:var(--brand)"></i></div></div><span>${l}</span><small>${(v/c*100).toFixed(1)}% converted</small></div>`).join('')}</div></div></div>
