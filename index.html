@@ -32,8 +32,8 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 body{zoom:var(--z)}
 /* sidebar */
 .side{width:280px;flex:none;background:var(--side);color:#fff;padding:32px 20px 40px;position:sticky;top:0;height:calc(100vh / var(--z));overflow-y:auto;z-index:30}
-.logo{display:flex;align-items:center;gap:8px;justify-content:center;font-size:26px;font-weight:700;letter-spacing:-.3px;margin-bottom:32px}
-.logo b{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--side);display:grid;place-items:center;font-size:24px;line-height:1;padding-bottom:3px}
+.logo{display:flex;align-items:center;justify-content:center;margin-bottom:32px}
+.logo img{display:block;width:184px;height:auto;max-width:100%}
 .nav{display:flex;flex-direction:column;gap:16px}
 .nv{display:flex;align-items:center;gap:13px;height:48px;padding:0 12px;border-radius:8px;font-size:16px;border:1px solid transparent;width:100%;text-align:left}
 .nv:hover{background:#322e47}
@@ -364,7 +364,7 @@ const NAV=[['Dashboard','squares'],['Classes','video'],['Learners Profiles','use
 const SUB=[['Dashboard'],['Upcoming Demo'],['Demo Completed'],['Call Audit','call-audit'],['Successful Calls','successful-calls'],['Call Analytics','call-analytics']];
 const routeBase=()=>{const h=location.hash.slice(1);if(h.startsWith('report-'))return S.from||'call-audit';if(h==='learners-calls')return 'call-audit';return h||'call-audit'};
 function side(){const cur=routeBase();
- $('#side').innerHTML=`<div class="logo"><b>e</b>englishyaari</div><nav class="nav">${NAV.map(([t,i])=>`<button class="nv x">${ic(i)}${t}</button>`).join('')}
+ $('#side').innerHTML=`<div class="logo"><img src="/logo.svg" alt="englishyaari" width="184" height="30"></div><nav class="nav">${NAV.map(([t,i])=>`<button class="nv x">${ic(i)}${t}</button>`).join('')}
  <div><button class="nv grp ${S.crm?'':'closed'}" id="crm" aria-expanded="${S.crm}">${ic('headset')}Sales CRM${ic('down','car')}</button>
  <div class="sub ${S.crm?'':'closed'}">${SUB.map(([t,h])=>h?`<a class="nv ${cur===h?'on':''}" href="#${h}">${t}</a>`:`<button class="nv x">${t}</button>`).join('')}</div></div>
  ${[['Coupons','tag'],['Slots','cal'],['Settings','gear']].map(([t,i])=>`<button class="nv x">${ic(i)}${t}</button>`).join('')}</nav>`}
