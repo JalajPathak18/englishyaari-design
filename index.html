@@ -14,7 +14,7 @@
    PICTURE: the tables, report and charts themselves.
    COLOUR and TYPE: the file's own tokens — brand #6D28D9, sidebar #28253B, Urbanist.
    LAYOUT: 280px dark sidebar, 80px top bar, 24px content gutter, as in the file. */
-:root{color-scheme:light;
+:root{color-scheme:light;--z:1;
 --brand:#6d28d9;--brand2:#f5f3ff;--brand3:#ebe7ff;--brand100:#ede8ff;--brand300:#c7b4ff;
 --ink:#060a17;--ink2:#58687e;--ink3:#8799b2;--title:#343861;
 --line:#eff2f6;--line2:#dfe5ec;--bg:#fafafa;--card:#fff;--head:#f7f7f7;
@@ -28,9 +28,10 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(-
 input{font:inherit}
 a{color:inherit;text-decoration:none}
 svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.app{display:flex;min-height:100vh}
+.app{display:flex;min-height:calc(100vh / var(--z))}
+body{zoom:var(--z)}
 /* sidebar */
-.side{width:280px;flex:none;background:var(--side);color:#fff;padding:32px 20px 40px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:30}
+.side{width:280px;flex:none;background:var(--side);color:#fff;padding:32px 20px 40px;position:sticky;top:0;height:calc(100vh / var(--z));overflow-y:auto;z-index:30}
 .logo{display:flex;align-items:center;gap:8px;justify-content:center;font-size:26px;font-weight:700;letter-spacing:-.3px;margin-bottom:32px}
 .logo b{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--side);display:grid;place-items:center;font-size:24px;line-height:1;padding-bottom:3px}
 .nav{display:flex;flex-direction:column;gap:16px}
@@ -52,7 +53,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .me{height:54px;border-radius:57px;background:var(--bg);display:flex;align-items:center;gap:12px;padding:0 14px 0 6px;color:#656565;font-size:16px;font-weight:600}
 .me .av{width:42px;height:42px;font-size:15px}
 /* page */
-.view{padding:24px 24px 48px;max-width:1240px;width:100%}
+.view{padding:24px clamp(16px,2vw,40px) 48px;max-width:1760px;width:100%;margin:0 auto}
 .ph{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
 .ph .t{flex:1 1 280px}
 .ph h1{margin:0 0 10px;font-size:24px;font-weight:600;color:var(--title);line-height:1.2}
@@ -217,7 +218,7 @@ mark{background:#fde68a;border-radius:2px}
 .tile{border:1px solid #eceaf2;border-radius:14px;padding:12px 16px}
 .tile p{margin:0 0 6px;display:flex;gap:8px;align-items:center;color:#666476}
 .tile b{font-size:24px;color:#262524;white-space:nowrap}
-.aw{display:grid;grid-template-columns:440px minmax(0,1fr);gap:24px}
+.aw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:24px}
 .sortb{display:inline-flex;gap:4px;align-items:center;font-weight:600}.sortb.on{color:var(--brand)}
 [data-tip]{position:relative}
 [data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12px;font-weight:500;padding:5px 8px;border-radius:6px;white-space:nowrap;z-index:5;pointer-events:none}
@@ -249,6 +250,18 @@ mark{background:#fde68a;border-radius:2px}
  .scrim.show{display:block;position:fixed;inset:0;background:rgba(6,10,23,.4);z-index:25}
  .burger{display:grid}.top{padding:0 16px;gap:12px}}
 @media(max-width:600px){.me>span:not(.av),.me svg{display:none}.me{padding:0 6px}.view{padding:16px}.search{width:100%}.pr{grid-template-columns:minmax(0,1fr) 40px}.pr .trk{grid-column:1/-1;grid-row:2}.tod{flex-direction:column;align-items:stretch}.slots{overflow-x:auto}.slot{min-width:96px}.hb{grid-template-columns:80px minmax(0,1fr) 84px;font-size:14px}.tiles{grid-template-columns:1fr}}
+@media(max-width:720px){
+ .tbl.cards{min-width:0!important}.tbl.cards .tr.h{display:none}
+ .tbl.cards .tr.r{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:14px 16px!important;min-height:0}
+ .tbl.cards .tr.r>*{flex:0 0 auto;min-width:0}.tbl.cards .tr.r>:first-child{flex:1 1 100%}
+ .tbl.cards .tr.r.clk>:first-child{flex:0 0 auto}.tbl.cards .tr.r.clk>:nth-child(2){flex:1 1 calc(100% - 40px)}
+ .tbl.cards .tl::before{display:none}.gh{padding-left:16px}
+ .range{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:4px}.range .rb{flex:none;font-size:14px;padding:7px 12px}.range .rb[data-range=custom]{gap:10px}.ph p{font-size:16px}
+ .seg{max-width:100%;overflow-x:auto}.sum{padding:16px}.rec{gap:10px;padding:12px}.acard{padding:18px}}
+@media(min-width:2200px){:root{--z:1.15}}
+@media(min-width:2600px){:root{--z:1.35}}
+@media(min-width:3200px){:root{--z:1.6}}
+@media(min-width:3800px){:root{--z:1.9}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -361,8 +374,8 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 
 /* ---------- menus ---------- */
 let menuCb=null,menuBtn=null;
-function placeMenu(btn){const m=$('#menu'),r=btn.getBoundingClientRect();m.classList.add('show');const w=m.offsetWidth,h=m.offsetHeight;
- let x=Math.min(r.left,innerWidth-w-8),y=r.bottom+6;if(y+h>innerHeight-8)y=Math.max(8,r.top-h-6);m.style.left=Math.max(8,x)+'px';m.style.top=y+'px';btn.classList.add('open');menuBtn=btn}
+function placeMenu(btn){const m=$('#menu'),z=parseFloat(getComputedStyle(document.body).zoom)||1,r=btn.getBoundingClientRect();m.classList.add('show');const w=m.offsetWidth*z,h=m.offsetHeight*z;
+ let x=Math.min(r.left,innerWidth-w-8),y=r.bottom+6;if(y+h>innerHeight-8)y=Math.max(8,r.top-h-6);m.style.left=Math.max(8,x)/z+'px';m.style.top=y/z+'px';btn.classList.add('open');menuBtn=btn}
 function closeMenu(){$('#menu').classList.remove('show');menuBtn?.classList.remove('open');menuBtn=null;menuCb=null}
 function multiMenu(btn,opts,sel,cb){const m=$('#menu');const draw=()=>{m.innerHTML=opts.map(o=>`<button class="mi ${sel.includes(o.v)?'on':''}" data-v="${esc(o.v)}"><span class="cb">${ic('check')}</span>${o.dot?`<i class="dot" style="background:${o.dot}"></i>`:''}${esc(o.l||o.v)}</button>`).join('')+`<div class="mfoot"><button data-a="clear">Clear</button><button data-a="done">Done</button></div>`};
  draw();menuCb=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.a==='done')return closeMenu();if(b.dataset.a==='clear'){sel.length=0}else{const v=b.dataset.v,i=sel.indexOf(v);i<0?sel.push(v):sel.splice(i,1)}draw();cb()};placeMenu(btn)}
@@ -396,7 +409,7 @@ function viewLogs(){const tab=S.logTab,key='logs-'+tab,F=fl(key),f=rf(),q=(S.q[k
  <div class="tabs"><button class="${tab==='sales'?'on':''}" data-logtab="sales">Sales calls</button><button class="${tab==='support'?'on':''}" data-logtab="support">Support calls</button></div>
  <div class="kpis">${K}</div>
  <div class="card"><div class="tool">${searchBox(key,'Search learner')}<div class="filters">${fbtn(key,'member','All members')}${fbtn(key,'type','User type')}${fbtn(key,'intent','Intent')}${fbtn(key,'outcome','Outcome')}${fbtn(key,'dur','Duration')}</div></div>
- <div class="scroll"><div class="tbl" style="--mw:1060px;--cols:240px 190px 240px 160px minmax(170px,1fr) 80px"><div class="tr h"><span>Learner</span><span>Member Call Timing</span><span style="display:flex;gap:10px;align-items:center">Talk Time Ratio <span class="lg" style="font-size:11px;gap:8px"><span><i class="dot" style="background:var(--brand)"></i>Sales</span><span><i class="dot" style="background:var(--teal)"></i>Learner</span></span></span><span style="text-align:center">Plans pitched</span><span>Outcome</span><span></span></div>
+ <div class="scroll"><div class="tbl cards" style="--mw:1060px;--cols:minmax(220px,1.4fr) minmax(170px,1.1fr) minmax(220px,1.3fr) minmax(140px,.9fr) minmax(170px,1.1fr) 90px"><div class="tr h"><span>Learner</span><span>Member Call Timing</span><span style="display:flex;gap:10px;align-items:center">Talk Time Ratio <span class="lg" style="font-size:11px;gap:8px"><span><i class="dot" style="background:var(--brand)"></i>Sales</span><span><i class="dot" style="background:var(--teal)"></i>Learner</span></span></span><span style="text-align:center">Plans pitched</span><span>Outcome</span><span></span></div>
  ${rows.map(r=>`<div class="tr r"><div class="who">${avatar(r.name)}<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start"><span class="nm">${esc(r.name)}</span>${chip(r.type)}</div></div>
  <div><div style="font-weight:600;font-size:13px">${esc(r.member)}</div><div class="sm" style="margin-top:4px">${r.time} · ${r.date}${r.dur?' · '+r.dur+' min':''}</div></div>
  <div>${r.ratio?`<div class="ratio" data-tip="Sales ${r.ratio[0]}% · Learner ${r.ratio[1]}%">${ring(r.ratio)}<span><span class="${r.ratio[0]<r.ratio[1]?'lt':''}">${r.ratio[0]}</span><span class="lt">:</span><span class="${r.ratio[1]<r.ratio[0]?'lt':''}">${r.ratio[1]}</span></span></div>`:'<span class="mut">—</span>'}</div>
@@ -409,15 +422,15 @@ function viewLogs(){const tab=S.logTab,key='logs-'+tab,F=fl(key),f=rf(),q=(S.q[k
 function viewLearners(){const key='learn',F=fl(key),f=rf(),q=(S.q[key]||'').toLowerCase();
  const list=LEARN.filter(l=>(!q||l.name.toLowerCase().includes(q)||l.phone.replace(/\s/g,'').includes(q.replace(/\s/g,'')))&&(!F.member?.length||F.member.includes(l.member))&&(!F.type?.length||F.type.includes(l.type))&&(!F.ung?.length||F.ung.includes(l.ung?'Has ungrouped calls':'All grouped')));
  const [rows,foot]=paginate(key,list);
- const cols='--cols:28px 300px 240px 1fr';
- const sub=l=>{const g=groupsFor(l);return `<div class="tr h s" style="--cols:72px 110px 150px 110px 120px 60px 90px 100px 100px 70px;padding-left:46px;background:#fff"><span>Call</span><span>Direction</span><span>Date &amp; time</span><span>Member</span><span>User type</span><span>Score</span><span>Intent</span><span>Emphasised</span><span>Duration</span><span>Report</span></div>`+
-  g.map(gr=>`<div class="gh ${gr.k}">${ic('down')}<b>${esc(gr.t)}</b><span class="d">${esc(gr.d)}</span><span class="cnt">${gr.calls.length} calls</span></div>`+gr.calls.map((c,i)=>`<div class="tr r m" style="--cols:72px 110px 150px 110px 120px 60px 90px 100px 100px 70px;padding-left:46px;min-height:40px;background:#fff">
+ const cols='--cols:28px minmax(280px,1.4fr) minmax(220px,1fr) minmax(200px,1fr)';
+ const sub=l=>{const g=groupsFor(l);return `<div class="tr h s" style="--cols:minmax(64px,.8fr) minmax(100px,1fr) minmax(140px,1.4fr) minmax(90px,1fr) minmax(110px,1.1fr) minmax(56px,.6fr) minmax(80px,.9fr) minmax(90px,.9fr) minmax(90px,.9fr) 80px;padding-left:46px;background:#fff"><span>Call</span><span>Direction</span><span>Date &amp; time</span><span>Member</span><span>User type</span><span>Score</span><span>Intent</span><span>Emphasised</span><span>Duration</span><span>Report</span></div>`+
+  g.map(gr=>`<div class="gh ${gr.k}">${ic('down')}<b>${esc(gr.t)}</b><span class="d">${esc(gr.d)}</span><span class="cnt">${gr.calls.length} calls</span></div>`+gr.calls.map((c,i)=>`<div class="tr r m" style="--cols:minmax(64px,.8fr) minmax(100px,1fr) minmax(140px,1.4fr) minmax(90px,1fr) minmax(110px,1.1fr) minmax(56px,.6fr) minmax(80px,.9fr) minmax(90px,.9fr) minmax(90px,.9fr) 80px;padding-left:46px;min-height:40px;background:#fff">
   <div class="tl"><i class="${c.dur?'':'o'}"></i><b style="font-weight:600">Call ${c.callNo}</b></div><span class="dir ${c.dir==='Incoming'?'in':''}">${ic(c.dir==='Incoming'?'pin':'pout')}${c.dir}</span><span class="sm" style="color:var(--ink2)">${c.dt}</span><span class="sm" style="color:var(--ink2)">${c.member}</span><span>${chip(c.type)}</span>
   <b>${c.score??'—'}</b><span>${c.intent!=='—'?`<span class="int ${c.intent}">${c.intent}</span>`:'—'}</span><span>${c.emph!=='—'?`<span class="pt">${c.emph}</span>`:'—'}</span><span>${c.dur?`<b style="font-weight:600">${c.dur}</b>`:'<span class="np">Not picked</span>'}</span><span>${c.dur?`<a class="vbtn" href="#report-${c.id}">${ic('play')}View</a>`:'—'}</span></div>`).join('')).join('')};
  return pageHead('Call Audit','Calls recorded and linked automatically')+`<div class="stack"><div class="seg"><a href="#call-audit">Call logs</a><button class="on">Learners’ calls</button></div>
  <div class="kpis">${kpi('Learners called',fmt(1128*f))+kpi('Converted',fmt(86*f))+kpi('Avg calls to convert','4.6')+kpi('Ungrouped calls',fmt(1412*f))}</div>
  <div class="card"><div class="tool">${searchBox(key,'Search learner or mobile')}<div class="filters">${fbtn(key,'member','All members')}${fbtn(key,'type','User type')}${fbtn(key,'ung','Has ungrouped')}</div></div>
- <div class="scroll"><div class="tbl" style="--mw:1100px"><div class="tr h s" style="${cols}"><span></span><span>Learner</span><span>Activity</span><span>Member · Last call</span></div>
+ <div class="scroll"><div class="tbl cards" style="--mw:1100px"><div class="tr h s" style="${cols}"><span></span><span>Learner</span><span>Activity</span><span>Member · Last call</span></div>
  ${rows.map(l=>{const o=S.open.has(l.name);return `<div class="tr r m clk ${o?'open':''}" style="${cols}" data-learner="${esc(l.name)}" role="button" tabindex="0" aria-expanded="${o}"><span class="chev">${ic('right')}</span>
  <div class="who">${avatar(l.name,36)}<div><div style="display:flex;gap:8px;align-items:center"><span class="nm" style="font-weight:600">${esc(l.name)}</span>${chip(l.type)}</div><div class="sm" style="color:var(--ink2);margin-top:3px">${l.phone}</div></div></div>
  <div class="act" style="color:var(--ink2);font-size:13px"><b>${l.calls}</b> call${l.calls>1?'s':''} · <b>${l.subs}</b> subscription${l.subs===1?'':'s'}<div class="${l.ung?'ung':'sm'}" style="margin-top:3px">${l.ung?l.ung+' ungrouped':'All grouped'}</div></div>
@@ -471,10 +484,10 @@ function viewSucc(){const ok=S.succTab==='ok',key='succ-'+S.succTab,F=fl(key),q=
  const all=Object.values(REC).filter(r=>r.ok===ok).sort((a,b)=>(b.markedAt||0)-(a.markedAt||0));
  const list=all.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(!F.member?.length||F.member.includes(r.member))&&(!F.type?.length||F.type.includes(r.type))&&(!F.emph?.length||F.emph.includes(r.emph||r.plans?.[0])));
  const nOk=Object.values(REC).filter(r=>r.ok===true).length,nNo=Object.values(REC).filter(r=>r.ok===false).length;
- const [rows,foot]=paginate(key,list,7);const cols='--cols:100px 150px 120px 70px 100px 80px 110px minmax(160px,1fr) 90px';
+ const [rows,foot]=paginate(key,list,7);const cols='--cols:minmax(90px,.8fr) minmax(140px,1.2fr) minmax(110px,1fr) minmax(60px,.5fr) minmax(90px,.7fr) minmax(70px,.6fr) minmax(100px,.8fr) minmax(160px,2fr) 90px';
  return pageHead('Successful Calls','Calls marked for learning')+`<div class="stack"><div class="tabs"><button class="${ok?'on':''}" data-succ="ok">Successful (${nOk})</button><button class="${ok?'':'on'}" data-succ="no">Failed (${nNo})</button></div>
  <div class="card"><div class="tool">${searchBox(key,'Search learner')}<div class="filters">${fbtn(key,'member','All members')}${fbtn(key,'type','User type')}${fbtn(key,'emph','Emphasised plan')}</div></div>
- <div class="scroll"><div class="tbl" style="--mw:1040px;${cols}"><div class="tr h s"><span>Member</span><span>Learner</span><span>User type</span><span>Score</span><span>Emphasised</span><span>Duration</span><span>Marked by</span><span>Why</span><span>Report</span></div>
+ <div class="scroll"><div class="tbl cards" style="--mw:1040px;${cols}"><div class="tr h s"><span>Member</span><span>Learner</span><span>User type</span><span>Score</span><span>Emphasised</span><span>Duration</span><span>Marked by</span><span>Why</span><span>Report</span></div>
  ${rows.map(r=>`<div class="tr r m"><span style="color:var(--ink2);font-size:13px">${esc(r.member)}</span><b style="font-weight:600;font-size:13px">${esc(r.name)}</b><span>${chip(r.type)}</span><b style="font-size:13px">${score(r.score)}</b><span><span class="pt">${r.emph||r.plans?.[0]||'—'}</span></span><b style="font-weight:600;font-size:13px">${r.dur}</b><span style="color:var(--ink2);font-size:13px">${esc(r.by||'Abhinav')}</span><span style="color:var(--ink2);font-size:13px">${esc(r.why||'—')}</span><span><a class="vbtn" href="#report-${r.id}">${ic('play')}View</a></span></div>`).join('')||`<div class="empty">${ok?'No successful calls match.':'No failed calls match.'}</div>`}
  </div></div>${foot}</div><p class="note">Open any report and use “Mark call” to add it here. Sample data.</p></div>`}
 
@@ -498,7 +511,7 @@ function viewAnalytics(){const tf={all:1,sales:.73,support:.27}[S.aType],m=MEMS.
  <div class="aw"><div class="acard"><h3>Picked vs not picked</h3><div><div class="lab">Total calls</div><div class="big">${fmt(tot)}</div></div><div class="pnp"><i style="width:77%;background:#27ae60"></i><i style="flex:1;background:#eb5757"></i></div>
  <div class="tiles"><div class="tile"><p><i class="dot" style="width:8px;height:8px;background:#27ae60"></i>Picked</p><b>${fmt(pk)} (77%)</b></div><div class="tile"><p><i class="dot" style="width:8px;height:8px;background:#eb5757"></i>Not picked</p><b>${fmt(np)} (23%)</b></div></div></div>
  <div class="acard"><h3>Call duration</h3><div class="hbars">${durs.map(([l,v,c])=>`<div class="hb"><span>${l}</span><div class="tk"><i style="width:${v/902*100}%;background:${c}"></i></div><span class="val"><b>${fmt(v*f)}</b> <span>(${Math.round(v/2376*100)}%)</span></span></div>`).join('')}</div></div></div>
- <div class="card" style="border-radius:16px;padding:20px 0 8px"><h3 style="margin:0 0 16px 24px;font-size:18px;font-weight:600">By member</h3><div class="scroll"><div class="tbl" style="--mw:860px;--cols:220px 140px 140px 160px 140px 1fr"><div class="tr h s" style="padding:0 24px"><span>Member</span>${sh('calls','Calls')}${sh('picked','Picked')}${sh('dur','Avg duration')}${sh('score','Avg score')}${sh('conv','Converted')}</div>
+ <div class="card" style="border-radius:16px;padding:20px 0 8px"><h3 style="margin:0 0 16px 24px;font-size:18px;font-weight:600">By member</h3><div class="scroll"><div class="tbl" style="--mw:860px;--cols:minmax(160px,1.4fr) repeat(5,minmax(100px,1fr))"><div class="tr h s" style="padding:0 24px"><span>Member</span>${sh('calls','Calls')}${sh('picked','Picked')}${sh('dur','Avg duration')}${sh('score','Avg score')}${sh('conv','Converted')}</div>
  ${sorted.map(r=>`<div class="tr r" style="min-height:48px;padding:0 24px;${r[0]===S.aMem?'background:var(--brand2)':''}"><b style="font-weight:600">${r[0]}</b><span>${fmt(r[1]*rf())}</span><span>${r[2]}%</span><span>${r[3]}</span><span>${r[4]}</span><b class="${r[5]?'up':''}">${r[5]!=null?Math.round(r[5]*rf()):'—'}</b></div>`).join('')}</div></div></div>
  <p class="note">Sample data. Pick a member, call type or date range and every chart updates.</p></div>`}
 
